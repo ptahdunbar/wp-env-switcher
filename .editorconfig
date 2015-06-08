@@ -4,7 +4,11 @@ root = true
 
 [*]
 indent_style = space
+<<<<<<< HEAD
 indent_size = 2
+=======
+indent_size = 4
+>>>>>>> new-master
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
