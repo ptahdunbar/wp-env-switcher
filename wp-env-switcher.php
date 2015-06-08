@@ -11,6 +11,9 @@ GitHub Plugin URI: https://github.com/piratedunbar/wp-env-switcher
 
 namespace PirateLife\WPEnvSwitcher;
 
+add_action('admin_bar_menu', 'PirateLife\\WPEnvSwitcher\\admin_bar_stage_switcher');
+add_action('wp_before_admin_bar_render', 'PirateLife\\WPEnvSwitcher\\admin_css');
+
 /**
  * Add stage/environment switcher to admin bar
  * Inspired by http://37signals.com/svn/posts/3535-beyond-the-default-rails-environments
@@ -22,15 +25,14 @@ namespace PirateLife\WPEnvSwitcher;
  *    'staging'     => 'http://staging.example.com',
  *    'production'  => 'http://example.com'
  *   );
- *   define('ENVIRONMENTS', serialize($envs));
+ *   define('WP_ENVIRONMENTS', serialize($envs));
  *
- * WP_ENV must be defined as the current environment
  */
 function admin_bar_stage_switcher($admin_bar)
 {
-    if (defined('WP_ENVIRONMENTS') && defined('WP_ENV')) {
+    if ( defined('WP_ENVIRONMENTS') ) {
         $environments = unserialize(WP_ENVIRONMENTS);
-        $current_stage = WP_ENV;
+        $current_stage = basename(WP_HOME);
     } else {
         return;
     }
@@ -56,8 +58,6 @@ function admin_bar_stage_switcher($admin_bar)
     }
 }
 
-add_action('admin_bar_menu', 'PirateLife\\WPEnvSwitcher\\admin_bar_stage_switcher');
-
 function admin_css()
 { ?>
     <style>
@@ -67,5 +67,3 @@ function admin_css()
         }
     </style>
 <?php }
-
-add_action('wp_before_admin_bar_render', 'PirateLife\\WPEnvSwitcher\\admin_css');
